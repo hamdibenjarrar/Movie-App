@@ -1,4 +1,3 @@
-// src/pages/Home.js
 import React, { useEffect, useState } from 'react';
 import { fetchMovies } from '../api/tmdb';
 import MovieList from '../components/MovieList';

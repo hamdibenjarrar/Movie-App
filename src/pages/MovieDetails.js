@@ -1,4 +1,3 @@
-// src/pages/MovieDetails.js
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchMovieDetails } from '../api/tmdb';
