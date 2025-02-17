@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 const Filter = ({ titleFilter, rateFilter, setTitleFilter, setRateFilter }) => (
   <div className="filter-container">

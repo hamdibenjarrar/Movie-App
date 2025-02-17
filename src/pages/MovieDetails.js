@@ -1,3 +1,4 @@
+// src/pages/MovieDetails.js
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchMovieDetails } from '../api/tmdb';
@@ -6,6 +7,7 @@ const MovieDetails = () => {
   const { id } = useParams();
   const [movie, setMovie] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const loadMovieDetails = async () => {
@@ -15,6 +17,7 @@ const MovieDetails = () => {
         setLoading(false);
       } catch (error) {
         console.error('Error fetching movie details:', error);
+        setError(error.message);
         setLoading(false);
       }
     };
@@ -23,6 +26,7 @@ const MovieDetails = () => {
   }, [id]);
 
   if (loading) return <div>Loading...</div>;
+  if (error) return <div>{error}</div>;
   if (!movie) return <div>Movie not found</div>;
 
   return (
@@ -36,22 +40,25 @@ const MovieDetails = () => {
           />
           <div className="movie-info">
             <h1>{movie.title}</h1>
-            <p className="tagline">{movie.tagline}</p>
-            <div className="facts">
-              <span>{movie.release_date.split('-')[0]}</span>
-              <span>{Math.floor(movie.runtime / 60)}h {movie.runtime % 60}m</span>
-              <span>Rating: {movie.vote_average}/10</span>
-            </div>
-            <h3>Overview</h3>
-            <p>{movie.overview}</p>
-            <div className="genres">
-              {movie.genres.map(genre => (
-                <span key={genre.id} className="genre">{genre.name}</span>
-              ))}
-            </div>
+            <p>{movie.description}</p>
+            {movie.trailerLink && (
+              <div>
+                <h3>Trailer</h3>
+                <iframe
+                  width="560"
+                  height="315"
+                  src={movie.trailerLink}
+                  title={movie.title}
+                  frameborder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowfullscreen
+                ></iframe>
+              </div>
+            )}
           </div>
         </div>
       </div>
+      <button onClick={() => window.history.back()}>Back to Home</button>
     </div>
   );
 };
